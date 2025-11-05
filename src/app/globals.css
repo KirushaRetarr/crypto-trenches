@@ -5,8 +5,41 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
+  /* Light theme colors */
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #0a0a0a;
+  --card-bg: #ffffff;
+  --card-border: #e5e7eb;
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
+  --secondary: #8b5cf6;
+  --accent: #ec4899;
+  --success: #10b981;
+  --danger: #ef4444;
+  --warning: #f59e0b;
+  --text-primary: #0a0a0a;
+  --text-secondary: #6b7280;
+  --border: #e5e7eb;
+  --hover: #f9fafb;
+}
+
+.dark {
+  /* Dark theme colors */
+  --background: #0a0a0a;
+  --foreground: #ededed;
+  --card-bg: #171717;
+  --card-border: #2a2a2a;
+  --primary: #818cf8;
+  --primary-hover: #6366f1;
+  --secondary: #a78bfa;
+  --accent: #f472b6;
+  --success: #34d399;
+  --danger: #f87171;
+  --warning: #fbbf24;
+  --text-primary: #ededed;
+  --text-secondary: #9ca3af;
+  --border: #2a2a2a;
+  --hover: #1f1f1f;
 }
 
 @theme inline {
@@ -16,15 +49,13 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  transition: background-color 0.2s ease, color 0.2s ease, border-color 0.2s ease;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), Arial, Helvetica, sans-serif;
+  min-height: 100vh;
 }
