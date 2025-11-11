@@ -1,20 +1,18 @@
 "use client"
 
 import {
+    Button,
+    Link,
     Navbar,
     NavbarBrand,
     NavbarContent,
     NavbarItem,
-    NavbarMenuToggle,
     NavbarMenu,
     NavbarMenuItem,
-    Link,
-    Button,
+    NavbarMenuToggle,
 } from "@heroui/react";
-
+import Image from "next/image";
 import React from "react";
-
-import Image from "next/image"
 
 export function Logo() {
     return (
@@ -31,46 +29,86 @@ export function Logo() {
 
 export default function Header() {
     const [isMenuOpen, setIsMenuOpen] = React.useState(false);
+    const [isScrolled, setIsScrolled] = React.useState(false);
 
-    const menuItems = [
-        "Криптовалюта",
-        "Портфель",
-        "Удобства",
-        "Войти",
-        "Зарегистрироваться",
+    React.useEffect(() => {
+        function handleScroll() {
+            setIsScrolled(window.scrollY > 24);
+        }
+
+        handleScroll();
+        window.addEventListener("scroll", handleScroll, { passive: true });
+
+        return () => {
+            window.removeEventListener("scroll", handleScroll);
+        };
+    }, []);
+
+    const navLinkClassName =
+        "relative px-3 py-2 text-base font-medium text-[var(--text-secondary)] transition-all duration-200 ease-out hover:text-[var(--primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-hover)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)] after:absolute after:bottom-1 after:left-1/2 after:h-[2px] after:w-0 after:-translate-x-1/2 after:rounded-full after:bg-[var(--primary)] after:transition-all after:duration-300 hover:after:w-full";
+
+    const menuLinkClassName =
+        "w-full rounded-md px-3 py-2 text-base font-medium text-[var(--text-primary)] transition-all duration-200 ease-out hover:bg-[var(--hover)] hover:text-[var(--primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-hover)]";
+
+    const sectionLinks = [
+        {
+            label: "Главная",
+            href: "#hero",
+        },
+        {
+            label: "Возможности",
+            href: "#benefits",
+        },
+        {
+            label: "Отзывы",
+            href: "#testimonials",
+        },
+        {
+            label: "Тарифы",
+            href: "#pricing",
+        },
     ];
 
-    const navItems = [
+    const actionLinks = [
         {
-            label: "Криптовалюта",
-            href: "/crypto",
+            label: "Войти",
+            href: "/login",
         },
         {
-            label: "Портфель",
-            href: "/portfolio",
-        },
-        {
-            label: "Удобства",
-            href: "/utilities",
+            label: "Присоединиться",
+            href: "/registration",
         },
     ];
+
+    const navbarClassName = [
+        "fixed inset-x-0 top-0 z-50 flex h-[72px] items-center px-[20px] transition-all duration-300",
+        "backdrop-blur-lg",
+        isScrolled
+            ? "bg-[rgba(9,10,18,0.82)] shadow-[0_12px_32px_-22px_rgba(15,23,42,0.75)]"
+            : "bg-transparent",
+    ].join(" ");
 
     return (
-        <Navbar onMenuOpenChange={setIsMenuOpen} className="flex justify-between items-center h-[64px] px-[20px]">
+        <Navbar className={navbarClassName} onMenuOpenChange={setIsMenuOpen}>
             <NavbarContent>
                 <NavbarMenuToggle
                     aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                    className="sm:hidden"
+                    className="sm:hidden text-[var(--text-primary)] transition-transform duration-200 data-[open=true]:rotate-90"
                 />
                 <NavbarBrand>
                     <Logo />
-                    <p className="font-bold text-inherit ml-2">Crypto Trenches</p>
+                    <a
+                        className="ml-2 font-semibold text-[var(--text-primary)] transition-colors duration-200 hover:text-[var(--primary)]"
+                        href="#hero"
+                    >
+                        Crypto Trenches
+                    </a>
                 </NavbarBrand>
             </NavbarContent>
-            <NavbarContent className="flex items-center justify-center gap-[20px]! hidden sm:flex gap-4" justify="center">
-                {navItems.map((item) => (
+            <NavbarContent className="hidden items-center justify-center gap-[20px]! gap-4 sm:flex" justify="center">
+                {sectionLinks.map((item) => (
                     <NavbarItem key={item.label}>
-                        <Link color="foreground" href={item.href}>
+                        <Link className={navLinkClassName} color="foreground" href={item.href}>
                             {item.label}
                         </Link>
                     </NavbarItem>
@@ -78,30 +116,36 @@ export default function Header() {
             </NavbarContent>
             <NavbarContent justify="end">
                 <NavbarItem className="hidden lg:flex">
-                    <Link href="#">Войти</Link>
+                    <Link className="text-base font-medium text-[var(--text-secondary)] transition-colors duration-200 hover:text-[var(--primary)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--primary-hover)] focus-visible:ring-offset-2 focus-visible:ring-offset-[var(--background)]" href="/login">
+                        Войти
+                    </Link>
                 </NavbarItem>
                 <NavbarItem>
-                    <Button as={Link} color="primary" href="#" variant="flat">
-                        Зарегистрироваться
+                    <Button
+                        as={Link}
+                        className="px-5 py-3 rounded-xl bg-[var(--primary)] text-[var(--foreground)] text-base font-semibold shadow-[0_18px_45px_-22px_var(--primary)] transition-all duration-200 hover:-translate-y-1 hover:bg-[var(--primary-hover)] hover:shadow-[0_24px_60px_-30px_var(--primary)] focus-visible:ring-[var(--primary-hover)]"
+                        href="/registration"
+                        variant="flat"
+                    >
+                        Присоединиться
                     </Button>
                 </NavbarItem>
             </NavbarContent>
             <NavbarMenu>
-                {menuItems.map((item, index) => (
-                    <NavbarMenuItem key={`${item}-${index}`}>
+                {[...sectionLinks, ...actionLinks].map((item) => (
+                    <NavbarMenuItem key={item.label}>
                         <Link
-                            className="w-full"
-                            color={
-                                index === 2 ? "primary" : index === menuItems.length - 1 ? "danger" : "foreground"
-                            }
-                            href="#"
+                            className={menuLinkClassName}
+                            color={item.href === "#cta" ? "danger" : item.href === "#auth" ? "primary" : "foreground"}
+                            href={item.href}
+                            onClick={() => setIsMenuOpen(false)}
                             size="lg"
                         >
-                            {item}
+                            {item.label}
                         </Link>
                     </NavbarMenuItem>
                 ))}
             </NavbarMenu>
         </Navbar>
     );
-}   
+}
