@@ -92,9 +92,10 @@ export default function Header() {
     return (
         <Navbar className={navbarClassName} onMenuOpenChange={setIsMenuOpen}>
             <NavbarContent>
-
                 <NavbarBrand>
-                    <Logo />
+                    <span className="hidden min-[401px]:inline">
+                        <Logo />
+                    </span>
                     <a
                         className="ml-2 font-semibold text-[var(--text-primary)] transition-colors duration-200 hover:text-[var(--primary)]"
                         href="#hero"
@@ -122,21 +123,6 @@ export default function Header() {
                     <SignUpModal />
                 </NavbarItem>
             </NavbarContent>
-            <NavbarMenu>
-                {[...sectionLinks, ...actionLinks].map((item) => (
-                    <NavbarMenuItem key={item.label}>
-                        <Link
-                            className={menuLinkClassName}
-                            color={item.href === "#cta" ? "danger" : item.href === "#auth" ? "primary" : "foreground"}
-                            href={item.href}
-                            onClick={() => setIsMenuOpen(false)}
-                            size="lg"
-                        >
-                            {item.label}
-                        </Link>
-                    </NavbarMenuItem>
-                ))}
-            </NavbarMenu>
         </Navbar>
     );
 }
