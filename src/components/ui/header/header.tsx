@@ -13,6 +13,7 @@ import {
 } from "@heroui/react";
 import Image from "next/image";
 import React from "react";
+import SignUpModal from "@/components/modal/SignUpModal";
 
 export function Logo() {
     return (
@@ -91,10 +92,7 @@ export default function Header() {
     return (
         <Navbar className={navbarClassName} onMenuOpenChange={setIsMenuOpen}>
             <NavbarContent>
-                <NavbarMenuToggle
-                    aria-label={isMenuOpen ? "Close menu" : "Open menu"}
-                    className="sm:hidden text-[var(--text-primary)] transition-transform duration-200 data-[open=true]:rotate-90"
-                />
+
                 <NavbarBrand>
                     <Logo />
                     <a
@@ -121,14 +119,7 @@ export default function Header() {
                     </Link>
                 </NavbarItem>
                 <NavbarItem>
-                    <Button
-                        as={Link}
-                        className="px-5 py-3 rounded-xl bg-[var(--primary)] text-[var(--foreground)] text-base font-semibold shadow-[0_18px_45px_-22px_var(--primary)] transition-all duration-200 hover:-translate-y-1 hover:bg-[var(--primary-hover)] hover:shadow-[0_24px_60px_-30px_var(--primary)] focus-visible:ring-[var(--primary-hover)]"
-                        href="/registration"
-                        variant="flat"
-                    >
-                        Присоединиться
-                    </Button>
+                    <SignUpModal />
                 </NavbarItem>
             </NavbarContent>
             <NavbarMenu>

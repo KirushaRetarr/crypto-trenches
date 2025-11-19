@@ -106,15 +106,6 @@ function HeroSection() {
                                     Ликвидность превышает среднее значение. Оптимальный диапазон покупки — $92.4K.
                                 </p>
                             </div>
-                            <Button
-                                as={Link}
-                                className="rounded-xl px-4 py-2 text-base font-semibold shadow-[0_8px_28px_-16px_rgba(129,140,248,0.75)]"
-                                color="primary"
-                                href="#cta"
-                                size="md"
-                            >
-                                Получить сигнал
-                            </Button>
                         </div>
                     </div>
                 </Reveal>
