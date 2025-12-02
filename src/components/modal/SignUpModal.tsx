@@ -9,7 +9,7 @@ import {
     Input,
 } from "@heroui/react";
 import { useState } from "react";
-
+import { registerUser } from "@/actions/register";
 interface MailIconProps {
     className?: string;
 }
@@ -66,14 +66,20 @@ export default function SignUpModal() {
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [confirmPassword, setConfirmPassword] = useState("");
 
     function handleOnSubmit() {
-        if (!email || !password) {
-            alert("Заполните все поля")
-            return
+        if (!email || !password || !confirmPassword) {
+            alert("Заполните все поля");
+            return;
         }
-        alert("Успешно зарегистрировались")
-        console.log(email, password)
+        
+        if (password !== confirmPassword) {
+            alert("Пароли не совпадают");
+            return;
+        }
+        
+        registerUser({ email, password, confirmPassword });
     }
 
     return (
@@ -85,7 +91,7 @@ export default function SignUpModal() {
                 classNames={{
                     body: "py-4",
                     backdrop: "bg-[#292f46]/50 backdrop-opacity-40",
-                    base: "backdrop-blur-[6px] bg-linear-150 from-[#ffffff1f] to-[#ffffff05] w-[400px] h-[300px] rounded-xl border-1 border-[#ffffff2e]",
+                    base: "backdrop-blur-[6px] bg-linear-150 from-[#ffffff1f] to-[#ffffff05] w-[400px] h-[400px] rounded-xl border-1 border-[#ffffff2e]",
                     header: "flex flex-row justify-center items-center",
                     footer: "flex flex-row justify-center items-center",
                     closeButton: "hidden",
@@ -116,6 +122,22 @@ export default function SignUpModal() {
                                     type="password"
                                     variant="bordered"
                                     onValueChange={setPassword}
+                                />
+                                <Input
+                                    endContent={
+                                        <LockIcon className="text-2xl text-default-400 pointer-events-none shrink-0" />
+                                    }
+                                    label="Подтвердите пароль:"
+                                    placeholder="Введите ваш пароль"
+                                    type="password"
+                                    variant="bordered"
+                                    onValueChange={setConfirmPassword}
+                                    isInvalid={!!confirmPassword && confirmPassword.length > 0 && confirmPassword !== password}
+                                    errorMessage={
+                                        !!confirmPassword && confirmPassword.length > 0 && confirmPassword !== password
+                                            ? "Пароли не совпадают"
+                                            : undefined
+                                    }
                                 />
                             </ModalBody>
                             <ModalFooter>

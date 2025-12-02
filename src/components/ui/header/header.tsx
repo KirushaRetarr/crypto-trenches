@@ -119,7 +119,7 @@ export default function Header() {
                         Войти
                     </Link>
                 </NavbarItem>
-                <NavbarItem>
+                <NavbarItem className="cursor-pointer">
                     <SignUpModal />
                 </NavbarItem>
             </NavbarContent>
